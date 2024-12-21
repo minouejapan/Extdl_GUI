@@ -1,6 +1,7 @@
 ﻿(*
   外部ダウンローダーGUI
 
+  1.1 2024/12/22  hamelndlを追加した
   1.0 2024/06/27  初版
 *)
 unit ExtDlFeUnit;
@@ -54,7 +55,7 @@ implementation
 
 const
   // 各小説サイトのURL
-  NvURL: Array[0..8] of string = (
+  NvURL: Array[0..9] of string = (
                   'https://ncode.syosetu.com/n\d{4}\w{1,2}/',
                   'https://novel18.syosetu.com/n\d{4}\w{1,2}/',
                   'https://kakuyomu.jp/works/\d{19,20}',
@@ -63,10 +64,11 @@ const
                   'https://novelism.jp/novel/(\w|-){22}/',
                   'https://www.berrys-cafe.jp/pc/book/n\d{7}/',
                   'https://novel.daysneo.com/works/\w{32}.html',
-                  'https://novema.jp/book/n\d{7}'
+                  'https://novema.jp/book/n\d{7}',
+                  'https://syosetu.org/novel/\d{1,7}'
                 );
   // 対応するダウンローダー
-  ExtDL: Array[0..8] of string = (
+  ExtDL: Array[0..9] of string = (
                   'na6dl.exe',
                   'na6dl.exe',
                   'kakuyomudl.exe',
@@ -75,9 +77,10 @@ const
                   'novelismdl.exe',
                   'berrysdl.exe',
                   'nvldaysdl.exe',
-                  'novemadl.exe'
+                  'novemadl.exe',
+                  'hamelndl.exe'
                 );
-  ListCnt = 9;
+  ListCnt = 10;
 
 
 // 外部ダウンローダーからのメッセージを受け取る
@@ -85,7 +88,7 @@ procedure TExtDlFe.WMCopyData(var Message: TWMCopyData);
 var
   ttlauth: TStringList;
 begin
-  PNo := Message.CopyDataStruct.dwData;
+  PNo := Message.CopyDataStruct.dwData - 1;
   if PNo < 0 then
     PNo := 0;
   ttlauth := TStringList.Create;
@@ -104,7 +107,7 @@ end;
 // 外部ダウンローダーからDL状況を受け取る
 procedure TExtDlFe.WMDownloaderInfo(var Message: TMessage);
 begin
-  PCnt := Message.wParam + 1;
+  PCnt := Message.wParam;
   Status.Caption := '各話を取得中 [' + Format('%3d', [PCnt]) + '/' + Format('%3d', [PNo]) + '(' + Format('%d', [(PCnt * 100) div PNo]) + '%)]';
 end;
 

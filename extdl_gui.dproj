@@ -96,7 +96,8 @@
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-			<VerInfo_Keys>CompanyName=;FileDescription=Naro2mobi外部ダウンローダーGUI;FileVersion=1.0.0.0;InternalName=;LegalCopyright=INOUE, masahiro;LegalTrademarks=;OriginalFilename=Extdl_GUI;ProductName=;ProductVersion=1.0.0.0;Comments=フリーソフト</VerInfo_Keys>
+			<VerInfo_MinorVer>1</VerInfo_MinorVer>
+			<VerInfo_Keys>CompanyName=;FileDescription=Naro2mobi外部ダウンローダーGUI;FileVersion=1.1.0.0;InternalName=;LegalCopyright=INOUE, masahiro;LegalTrademarks=;OriginalFilename=Extdl_GUI;ProductName=;ProductVersion=1.1;Comments=フリーソフト</VerInfo_Keys>
 			<Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
 			<DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
@@ -174,6 +175,8 @@
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k160.bpl">Microsoft Office 2000 オートメーション サーバー ラッパー コンポーネントのサンプル</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclofficexp160.bpl">Microsoft Office XP オートメーション サーバー ラッパー コンポーネントのサンプル</Excluded_Packages>
 					</Excluded_Packages>
 				</Delphi.Personality>
 				<Platforms>
