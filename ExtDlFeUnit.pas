@@ -1,6 +1,7 @@
 ﻿(*
   外部ダウンローダーGUI
 
+  1.2 2024/12/22  小説サイト定義をExtDLoader.txtから読み込む用にした
   1.1 2024/12/22  hamelndlを追加した
   1.0 2024/06/27  初版
 *)
@@ -38,6 +39,9 @@ type
     PNo,
     PCnt: integer;
     Busy: Boolean;
+    SiteUrl,
+    Dloader: TStringList;
+    function LoadExtList: boolean;
     procedure ExecLoader(Aurl: string; ExeName: string);
     function WhichLoader(Aurl: string): string;
   public
@@ -52,35 +56,6 @@ var
 implementation
 
 {$R *.dfm}
-
-const
-  // 各小説サイトのURL
-  NvURL: Array[0..9] of string = (
-                  'https://ncode.syosetu.com/n\d{4}\w{1,2}/',
-                  'https://novel18.syosetu.com/n\d{4}\w{1,2}/',
-                  'https://kakuyomu.jp/works/\d{19,20}',
-                  'https://novelup.plus/story/\d{9,10}',
-                  'https://novelba.com/indies/works/\d{6,7}',
-                  'https://novelism.jp/novel/(\w|-){22}/',
-                  'https://www.berrys-cafe.jp/pc/book/n\d{7}/',
-                  'https://novel.daysneo.com/works/\w{32}.html',
-                  'https://novema.jp/book/n\d{7}',
-                  'https://syosetu.org/novel/\d{1,7}'
-                );
-  // 対応するダウンローダー
-  ExtDL: Array[0..9] of string = (
-                  'na6dl.exe',
-                  'na6dl.exe',
-                  'kakuyomudl.exe',
-                  'novelupdl.exe',
-                  'novelbadl.exe',
-                  'novelismdl.exe',
-                  'berrysdl.exe',
-                  'nvldaysdl.exe',
-                  'novemadl.exe',
-                  'hamelndl.exe'
-                );
-  ListCnt = 10;
 
 
 // 外部ダウンローダーからのメッセージを受け取る
@@ -111,17 +86,51 @@ begin
   Status.Caption := '各話を取得中 [' + Format('%3d', [PCnt]) + '/' + Format('%3d', [PNo]) + '(' + Format('%d', [(PCnt * 100) div PNo]) + '%)]';
 end;
 
+function TExtDlFe.LoadExtList: boolean;
+var
+  exlist, eachlt: TStringList;
+  extdl: string;
+  i: integer;
+begin
+  Result := False;
+  // 外部ダウンローダー情報を取得
+  extdl := ExtractFilePath(Application.ExeName) + 'ExtDLoader.txt';
+  if FileExists(extdl) then
+  begin
+    exlist := TStringList.Create;
+    eachlt := TStringList.Create;
+    try
+      exlist.WriteBOM := False;
+      exlist.LoadFromFile(extdl, TEncoding.UTF8);
+      for i := 0 to exlist.Count - 1 do
+      begin
+        eachlt.CommaText := exlist[i];
+        if eachlt.Count < 2 then  // リストが不完全
+          Continue;
+        if eachlt[4] = '1' then   // Windowsアプリは登録しない
+          Continue;
+        SiteUrl.Add(eachlt[0]);
+        DLoader.Add(eachlt[2]);
+      end;
+      Result := True;
+    finally
+      eachlt.Free;
+      exlist.Free;
+    end;
+  end;
+end;
+
 // URLから起動させる外部ダウンローダーを返す
 function TExtDlFe.WhichLoader(Aurl: string): string;
 var
   i: integer;
 begin
   Result := '';
-  for i := 0 to ListCnt - 1 do
+  for i := 0 to SiteUrl.Count - 1 do
   begin
-    if TRegEx.IsMatch(Aurl, NvURL[i]) then
+    if TRegEx.IsMatch(Aurl, SiteUrl[i]) then
     begin
-      Result := ExtDl[i];
+      Result := DLoader[i];
       Break;
     end;
   end;
@@ -208,6 +217,13 @@ begin
       CloseFile(f);
     end;
   end;
+  SiteUrl := TStringList.Create;
+  Dloader := TStringList.Create;
+  if not LoadExtList then
+  begin
+    MessageDlg('ExtDLoader.txtが見つかりません.', mtError, [mbOK], 0);
+    Close;
+  end;
   PNo := 0;
 end;
 
@@ -261,6 +277,8 @@ var
   cfg, opt: string;
   f: TextFile;
 begin
+  SiteUrl := TStringList.Create;
+  Dloader := TStringList.Create;
   // 表示ポジションを保存する
   cfg := ChangeFileExt(Application.ExeName, '.cfg');
   try
