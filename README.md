@@ -9,5 +9,5 @@ kakuyomudl等のNaro2mobi用コンソールアプリケーション型外部ダ�
 
 ## 使い方
 解凍したextdl_gui.exeを外部ダウンローダーと同じフォルダー内にコピーして起動すれば使用できます。
-
+※Naro2mobiで使用する外部ダウンローダー定義ファイルExDLoader.txtを読み込みますので、extdl_gui.exeをNaro2mobiと同じフォルダ内に置くか、extdl_gui.exeのフォルダにExDLoader.txtをコピーして下さい。
 
