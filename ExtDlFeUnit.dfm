@@ -30,10 +30,11 @@ object ExtDlFe: TExtDlFe
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitTop = 4
     object NvTitle: TLabel
       Left = 16
       Top = 58
-      Width = 763
+      Width = 595
       Height = 15
       AutoSize = False
       Caption = #20316#21697#12479#12452#12488#12523#65306
@@ -67,6 +68,25 @@ object ExtDlFe: TExtDlFe
       Color = clBtnFace
       ParentColor = False
     end
+    object ExtDLF: TLabel
+      Left = 617
+      Top = 60
+      Width = 103
+      Height = 15
+      Caption = #35373#23450':ExtDLoader.txt'
+    end
+    object DLOpenBtn: TSpeedButton
+      Left = 756
+      Top = 57
+      Width = 23
+      Height = 22
+      Hint = #22806#37096#12480#12454#12531#12525#12540#12480#12540#23450#32681#12501#12449#12452#12523#12434#38283#12367
+      Caption = #12539#12539#12539
+      Flat = True
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = DLOpenBtnClick
+    end
     object CancelBtn: TButton
       Left = 709
       Top = 29
@@ -93,5 +113,11 @@ object ExtDlFe: TExtDlFe
       Height = 23
       TabOrder = 2
     end
+  end
+  object OD: TOpenDialog
+    DefaultExt = 'txt'
+    Filter = #12486#12461#12473#12488#12501#12449#12452#12523'(*.txt)|*.txt|'#20840#12390#12398#12501#12449#12452#12523'(*.*)|*.*'
+    Title = #22806#37096#12480#12454#12531#12525#12540#12480#12540#35373#23450#12501#12449#12452#12523#12434#25351#23450#12375#12390#19979#12373#12356
+    Left = 688
   end
 end

@@ -96,8 +96,8 @@
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-			<VerInfo_MinorVer>2</VerInfo_MinorVer>
-			<VerInfo_Keys>CompanyName=;FileDescription=Naro2mobi外部ダウンローダーGUI;FileVersion=1.2.0.0;InternalName=;LegalCopyright=INOUE, masahiro;LegalTrademarks=;OriginalFilename=Extdl_GUI;ProductName=;ProductVersion=1.2;Comments=フリーソフト</VerInfo_Keys>
+			<VerInfo_MinorVer>3</VerInfo_MinorVer>
+			<VerInfo_Keys>CompanyName=;FileDescription=Naro2mobi外部ダウンローダーGUI;FileVersion=1.3.0.0;InternalName=;LegalCopyright=INOUE, masahiro;LegalTrademarks=;OriginalFilename=Extdl_GUI;ProductName=;ProductVersion=1.3;Comments=フリーソフト</VerInfo_Keys>
 			<Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
 			<DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>

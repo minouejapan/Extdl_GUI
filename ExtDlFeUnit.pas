@@ -1,6 +1,8 @@
 ﻿(*
   外部ダウンローダーGUI
 
+  1.3 2025/02/05  外部ダウンローダー設定ファイルExtDLoader.txtのコメント行処理を追加した
+                  外部ダウンローダー設定ファイルを選択出来るようにした
   1.2 2024/12/22  小説サイト定義をExtDLoader.txtから読み込む用にした
   1.1 2024/12/22  hamelndlを追加した
   1.0 2024/06/27  初版
@@ -12,7 +14,7 @@ interface
 uses
   System.Classes, System.SysUtils, Vcl.Forms, Vcl.Controls, Vcl.ExtCtrls,  Vcl.StdCtrls,
   Vcl.Buttons, Vcl.Dialogs, WinAPI.Windows, WinAPI.Messages, WinAPI.ShellAPI,
-  System.RegularExpressions;
+  System.RegularExpressions, EllipsEd;
 
 type
 
@@ -27,12 +29,16 @@ type
     Elapsed: TLabel;
     Status: TLabel;
     Label1: TLabel;
+    ExtDLF: TLabel;
+    DLOpenBtn: TSpeedButton;
+    OD: TOpenDialog;
     procedure CancelBtnClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure StartBtnClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DLOpenBtnClick(Sender: TObject);
   private
     Cancel: boolean;
     StartTime: TTime;
@@ -41,6 +47,7 @@ type
     Busy: Boolean;
     SiteUrl,
     Dloader: TStringList;
+    ExtDL: string;
     function LoadExtList: boolean;
     procedure ExecLoader(Aurl: string; ExeName: string);
     function WhichLoader(Aurl: string): string;
@@ -89,13 +96,11 @@ end;
 function TExtDlFe.LoadExtList: boolean;
 var
   exlist, eachlt: TStringList;
-  extdl: string;
   i: integer;
 begin
   Result := False;
   // 外部ダウンローダー情報を取得
-  extdl := ExtractFilePath(Application.ExeName) + 'ExtDLoader.txt';
-  if FileExists(extdl) then
+  if FileExists(ExtDL) then
   begin
     exlist := TStringList.Create;
     eachlt := TStringList.Create;
@@ -104,6 +109,9 @@ begin
       exlist.LoadFromFile(extdl, TEncoding.UTF8);
       for i := 0 to exlist.Count - 1 do
       begin
+        // コメント行をスキップ
+        if Pos('#', exlist[i]) = 1 then
+          Continue;
         eachlt.CommaText := exlist[i];
         if eachlt.Count < 2 then  // リストが不完全
           Continue;
@@ -112,6 +120,7 @@ begin
         SiteUrl.Add(eachlt[0]);
         DLoader.Add(eachlt[2]);
       end;
+      ExtDLF.Caption := '設定:' + ExtractFileName(ExtDL);
       Result := True;
     finally
       eachlt.Free;
@@ -132,6 +141,23 @@ begin
     begin
       Result := DLoader[i];
       Break;
+    end;
+  end;
+end;
+
+// 外部ダウンローダー設定ファイルを指定する
+procedure TExtDlFe.DLOpenBtnClick(Sender: TObject);
+begin
+  with OD do
+  begin
+    if ExtDL <> '' then
+      FileName := ExtDL
+    else
+      InitialDir := ExtractFileDir(Application.ExeName);
+    if Execute then
+    begin
+      ExtDL := FileName;
+      LoadExtList;
     end;
   end;
 end;
@@ -195,6 +221,7 @@ var
   cfg, opt: string;
   f: TextFile;
 begin
+  ExtDL := ExtractFilePath(Application.ExeName) + 'ExtDLoader.txt';
   // 表示ポジションを読み込む
   cfg := ChangeFileExt(Application.ExeName, '.cfg');
   if FileExists(cfg) then
@@ -212,6 +239,12 @@ begin
         if Opt = '' then
           Opt := '200';
         Top := StrToInt(Opt);
+        Readln(f, Opt);
+        if Opt <> '' then
+        begin
+          if FileExists(Opt) then
+            ExtDL := Opt;
+        end;
       end;
     finally
       CloseFile(f);
@@ -288,6 +321,7 @@ begin
     Writeln(f, opt);
     opt := IntToStr(Top);
     Writeln(f, opt);
+    Writeln(f, ExtDL);
   finally
     CloseFile(f);
   end;
