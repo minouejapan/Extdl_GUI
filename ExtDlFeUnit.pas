@@ -1,6 +1,7 @@
 ﻿(*
   外部ダウンローダーGUI
 
+  1.4 2025/11/13  ダウンロードページ数処理の不具合を修正した
   1.3 2025/02/05  外部ダウンローダー設定ファイルExtDLoader.txtのコメント行処理を追加した
                   外部ダウンローダー設定ファイルを選択出来るようにした
   1.2 2024/12/22  小説サイト定義をExtDLoader.txtから読み込む用にした
@@ -70,7 +71,7 @@ procedure TExtDlFe.WMCopyData(var Message: TWMCopyData);
 var
   ttlauth: TStringList;
 begin
-  PNo := Message.CopyDataStruct.dwData - 1;
+  PNo := Message.CopyDataStruct.dwData;
   if PNo < 0 then
     PNo := 0;
   ttlauth := TStringList.Create;
@@ -206,7 +207,7 @@ begin
   GetExitCodeProcess(SXInfo.hProcess, ret);
   CloseHandle(SXInfo.hProcess);
 
-  if PNo = PCnt then
+  if PNo >= PCnt then
     Status.Caption := 'ダウンロードを完了しました.'
   else if Cancel then
   begin
@@ -254,7 +255,7 @@ begin
   Dloader := TStringList.Create;
   if not LoadExtList then
   begin
-    MessageDlg('ExtDLoader.txtが見つかりません.', mtError, [mbOK], 0);
+    MessageDlg('外部ダウンローダー設定ファイルが見つかりません.', mtError, [mbOK], 0);
     Close;
   end;
   PNo := 0;

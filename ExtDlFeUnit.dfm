@@ -30,7 +30,6 @@ object ExtDlFe: TExtDlFe
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitTop = 4
     object NvTitle: TLabel
       Left = 16
       Top = 58
