@@ -1,14 +1,15 @@
 (*
   外部ダウンローダーGUI
 
-  1.5 2025/11/14  開発環境をDelphiからLazarusに変更した
-                  URLのクリップボード監視オプションを追加した
-  1.4 2025/11/13  ダウンロードページ数処理の不具合を修正した
-  1.3 2025/02/05  外部ダウンローダー設定ファイルExtDLoader.txtのコメント行処理を追加した
-                  外部ダウンローダー設定ファイルを選択出来るようにした
-  1.2 2024/12/22  小説サイト定義をExtDLoader.txtから読み込む用にした
-  1.1 2024/12/22  hamelndlを追加した
-  1.0 2024/06/27  初版
+  1.51  2025/11/15  実行中はクリップボード監視が無効になるようにっした
+  1.5   2025/11/14  開発環境をDelphiからLazarusに変更した
+                    URLのクリップボード監視オプションを追加した
+  1.4   2025/11/13  ダウンロードページ数処理の不具合を修正した
+  1.3   2025/02/05  外部ダウンローダー設定ファイルExtDLoader.txtのコメント行処理を追加した
+                    外部ダウンローダー設定ファイルを選択出来るようにした
+  1.2   2024/12/22  小説サイト定義をExtDLoader.txtから読み込む用にした
+  1.1   2024/12/22  hamelndlを追加した
+  1.0   2024/06/27  初版
 *)
 unit ExtDlFeUnit;
 
@@ -35,7 +36,7 @@ type
   { TExtDlfe }
 
   TExtDlFe = class(TForm)
-				IsWatchCB: TCheckBox;
+		IsWatchCB: TCheckBox;
     Panel2: TPanel;
     CancelBtn: TButton;
     StartBtn: TButton;
@@ -167,11 +168,11 @@ function TExtDlFe.WMDrawClipboard(AwParam: WParam; AlParam: LParam): LRESULT;
 var
   u: string;
 begin
-  if IsWatchCB.Checked then
+  if IsWatchCB.Checked and (not Busy) then
     if Clipboard.HasFormat(CF_TEXT) Then
     Begin
       u := Clipboard.AsText;
-      if ExecRegExpr('https://(ncode.syosetu.com|novel18.syosetu.com|kakuyomu.jp|www.alphapolis.co.jp|novelup.plus|estar.jp|novelba.com|novelism.jp|www.berrys-cafe.jp|novel.daysneo.com|novema.jp|syosetu.org)', u) then
+      if ExecRegExpr('https://(ncode.syosetu.com|novel18.syosetu.com|kakuyomu.jp|novelup.plus|novelba.com|novelism.jp|www.berrys-cafe.jp|novel.daysneo.com|novema.jp)', u) then
         URL.Text := Clipboard.AsText;
     end;
   SendMessage(FNextClipboardOwner, WM_DRAWCLIPBOARD, 0, 0);

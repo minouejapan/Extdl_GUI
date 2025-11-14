@@ -16,6 +16,7 @@ object ExtDlFe: TExtDlFe
   Font.Pitch = fpVariable
   Font.Quality = fqDraft
   KeyPreview = True
+  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
