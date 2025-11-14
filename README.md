@@ -1,8 +1,7 @@
 ## 外部ダウンローダー用Windows GUI
-na6dl等のNaro2mobi用コンソールアプリケーション型外部ダウンローダーをWindows上で実行するためのフロントエンドGUIです。
-
-作品URLで自動的に対応する外部ダウンローダーを起動してダウンロードします。
-
+na6dl等のNaro2mobi用コンソールアプリケーション型外部ダウンローダーをWindows上で実行するためのフロントエンドGUIです。<br>
+作品URLで自動的に対応する外部ダウンローダーを起動してダウンロードします。<br>
+<br>
 起動するコンソールアプリケーション型の外部ダウンローダーは、na6dl.exe, kakuyomudl.exe, novelupdl.exe, novelbadl.exe, novelismdl.exe, berrysdl.exe, nvldaysdl.exe, novemadl.exeです。
 
 ![extdl_gui15](https://github.com/user-attachments/assets/4f25b9b8-40c2-4b7a-ad23-54419c083c85)
