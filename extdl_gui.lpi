@@ -20,7 +20,7 @@
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="5"/>
-      <RevisionNr Value="1"/>
+      <RevisionNr Value="2"/>
       <Language Value="0411"/>
       <StringTable FileDescription="Naro2mobi外部ダウンローダー用GUI" LegalCopyright="INOUE, masahiro" OriginalFilename="extdl_gui.exe" ProductName="extdl_gui" ProductVersion="1.5"/>
     </VersionInfo>
@@ -44,6 +44,8 @@
           </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="win64"/>
             <Optimizations>
               <OptimizationLevel Value="3"/>
             </Optimizations>
@@ -75,6 +77,9 @@
       <FormatVersion Value="2"/>
     </RunParams>
     <RequiredPackages>
+      <Item>
+        <PackageName Value="MetaDarkStyle"/>
+      </Item>
       <Item>
         <PackageName Value="LCL"/>
       </Item>
@@ -113,6 +118,8 @@
         <StackChecks Value="True"/>
       </Checks>
       <VerifyObjMethodCallValidity Value="True"/>
+      <TargetCPU Value="x86_64"/>
+      <TargetOS Value="win64"/>
     </CodeGeneration>
     <Linking>
       <Debugging>

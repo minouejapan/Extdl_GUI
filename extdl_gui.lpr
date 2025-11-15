@@ -5,11 +5,18 @@ program extdl_gui;
 
 uses
   Forms, Interfaces,
-  ExtDlFeUnit in 'ExtDlFeUnit.pas' {ExtDlFe};
+  ExtDlFeUnit in 'ExtDlFeUnit.pas' {ExtDlFe},
+  uDarkStyleParams,
+  uDarkStyleSchemes,
+  uMetaDarkStyle
+{ you can add units after this };
 
 {$R *.res}
 
 begin
+  RequireDerivedFormResource:=True;
+  PreferredAppMode := pamAllowDark;
+  uMetaDarkStyle.ApplyMetaDarkStyle(DefaultDark);
 			Application.Scaled:=True;
   Application.Initialize;
   Application.MainFormOnTaskbar := True;

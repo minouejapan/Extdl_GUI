@@ -1,6 +1,7 @@
 (*
   外部ダウンローダーGUI
 
+  1.52  2025/11/16  MetaDarkStyleによるダークモード対応を追加した
   1.51  2025/11/15  実行中はクリップボード監視が無効になるようにっした
   1.5   2025/11/14  開発環境をDelphiからLazarusに変更した
                     URLのクリップボード監視オプションを追加した
@@ -20,7 +21,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, ExtCtrls,  StdCtrls, Buttons, Dialogs,
-  Windows, Messages, ShellAPI, LazUTF8, RegExpr, ClipBrd;
+  Windows, Messages, ShellAPI, LazUTF8, RegExpr, ClipBrd, uDarkStyleSchemes;
 
 type
   {$IFDEF FPC}
